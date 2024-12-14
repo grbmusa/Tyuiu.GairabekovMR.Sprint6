@@ -1,53 +1,82 @@
 ﻿using tyuiu.cources.programming.interfaces.Sprint6;
-
 namespace Tyuiu.GairabekovMR.Sprint6.Task3.V19.Lib
 {
     public class DataService : ISprint6Task3V19
     {
         public int[,] Calculate(int[,] matrix)
         {
-            int[] a = new int[5];
-            int[,] s = new int[5, 5];
+            int rows = matrix.GetUpperBound(0) + 1;
+            int columns = matrix.Length / rows;
 
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            int min = 0;
+            int a = 0;
+            for (int i = 0; i < rows; i++)
             {
-                a[i] = matrix[i, 4];
-            }
-
-            Array.Sort(a);
-
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < a.GetLength(0); j++)
+                for (int j = 0; j < columns; j++)
                 {
-                    if (matrix[i, 4] == a[j])
+                    if (j == 4)
                     {
-                        for (int k = 0; k < s.GetLength(0); k++)
+                        if (i == 0)
                         {
-                            s[j, k] = matrix[i, k];
+                            min = matrix[i, j];
                         }
-                        break;
+                        else
+                        {
+                            if (matrix[i, j] < min)
+                            {
+                                matrix[i - 1, j] = matrix[i, j];
+                                matrix[i, j] = min;
+                                min = matrix[i - 1, j];
+                            }
+                            else
+                            {
+                                if (matrix[i, j] < matrix[i - 1, j])
+                                {
+                                    a = matrix[i - 1, j];
+                                    matrix[i - 1, j] = matrix[i, j];
+                                    matrix[i, j] = a;
+
+                                }
+                            }
+                        }
                     }
+
                 }
             }
-
-            return s;
-        }
-
-        public int[,] qwe(string a)
-        {
-            string[] d = a.Split("  ");
-            int[,] s = new int[5, 5];
-
-            for (int i = 0; i < s.GetLength(0); i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < s.GetLength(1); j++)
+                for (int j = 0; j < columns; j++)
                 {
-                    s[i, j] = Convert.ToInt32(d[i * 5 + j]);
+                    if (j == 4)
+                    {
+                        if (i == 0)
+                        {
+                            min = matrix[i, j];
+                        }
+                        else
+                        {
+                            if (matrix[i, j] < min)
+                            {
+                                matrix[i - 1, j] = matrix[i, j];
+                                matrix[i, j] = min;
+                                min = matrix[i - 1, j];
+                            }
+                            else
+                            {
+                                if (matrix[i, j] < matrix[i - 1, j])
+                                {
+                                    a = matrix[i - 1, j];
+                                    matrix[i - 1, j] = matrix[i, j];
+                                    matrix[i, j] = a;
+
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
-
-            return s;
+            return matrix;
         }
     }
 }
